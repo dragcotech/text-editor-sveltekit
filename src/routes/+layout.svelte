@@ -1,23 +1,21 @@
 <script>
+	import NavBar from '$lib/components/NavBar.svelte';
 	import '../app.postcss';
-	import { AppBar, AppShell, initializeStores } from '@skeletonlabs/skeleton';
+	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
 	initializeStores();
 </script>
 
-<AppShell>
-	<svelte:fragment slot="pageHeader">
-		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
-			<svelte:fragment slot="lead">(icon)</svelte:fragment>
-			(title)
-			<svelte:fragment slot="trail">(actions)</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
-	<!-- (sidebarLeft) -->
-	<svelte:fragment slot="sidebarRight">Sidebar Right</svelte:fragment>
-	<!-- (pageHeader) -->
-	<!-- Router Slot -->
+<Toast
+	padding="p-4"
+	position="tr"
+	buttonDismissLabel="❌"
+	buttonDismiss="hover:scale-[0.8] transition-all"
+	color="variant-glass-error text-black"
+/>
+
+<main class="pt-[5rem]">
+	<div class="fixed inset-x-0 top-0 z-10 h-fit border-b border-zinc-300 bg-zinc-100 px-4 py-3">
+		<NavBar />
+	</div>
 	<slot />
-	<!-- ---- / ---- -->
-	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
-	<!-- (footer) -->
-</AppShell>
+</main>
