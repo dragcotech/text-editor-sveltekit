@@ -44,6 +44,7 @@
 		"@auth/core": "^0.14.0",
 		"@auth/prisma-adapter": "^1.0.2",
 		"@auth/sveltekit": "^0.3.7",
+		"@floating-ui/dom": "^1.5.1",
 		"@prisma/client": "^5.2.0",
 		"lucide-svelte": "0.104.0-beta.6",
 		"svelte-french-toast": "^1.2.0",

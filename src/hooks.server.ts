@@ -12,7 +12,6 @@ import { db } from '$lib/server/prisma';
 
 export const handle = SvelteKitAuth({
 	adapter: PrismaAdapter(db),
-	session: { strategy: 'jwt' },
 	providers: [
 		GitHub({ clientId: GITHUB_CLIENT, clientSecret: GITHUB_SECRET }),
 		Google({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET })
@@ -23,43 +22,16 @@ export const handle = SvelteKitAuth({
 		error: '/error'
 	},
 	callbacks: {
-		async session({ token, session }) {
-			if (token) {
-				token.name = session.user?.name;
-				token.email = session.user?.email;
-				token.picture = session.user?.image;
-				token.id = session.user?.id;
-				token.username = session.user?.username;
-			}
-			return session;
-		},
-		async jwt({ token, user }) {
-			const dbUser = await db.user.findFirst({
-				where: {
-					email: token.email
-				}
-			});
-			if (!dbUser) {
-				token.id = user.id;
-				return token;
-			}
-			if (!dbUser.username) {
-				await db.user.update({
-					where: {
-						id: dbUser.id
-					},
-					data: {
-						username: crypto.randomUUID()
-					}
-				});
-			}
-			return {
-				id: dbUser.id,
-				name: dbUser.name,
-				email: dbUser.email,
-				picture: dbUser.image,
-				username: dbUser.username
+		async session({ session, user }) {
+			session.user = {
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				id: user.id,
+				name: user.name,
+				email: user.email,
+				image: user.image
 			};
+			return session;
 		}
 	}
 });
