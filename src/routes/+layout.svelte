@@ -1,17 +1,10 @@
 <script>
 	import NavBar from '$lib/components/NavBar.svelte';
+	import { Toaster } from 'svelte-french-toast';
 	import '../app.postcss';
-	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
-	initializeStores();
 </script>
 
-<Toast
-	padding="p-4"
-	position="tr"
-	buttonDismissLabel="❌"
-	buttonDismiss="hover:scale-[0.8] transition-all"
-	color="variant-glass-error text-black"
-/>
+<Toaster />
 
 <main class="pt-[5rem]">
 	<div class="fixed inset-x-0 top-0 z-10 h-fit border-b border-zinc-300 bg-zinc-100 px-4 py-3">
