@@ -3,6 +3,7 @@
 	import MiniCreatePost from '$lib/components/MiniCreatePost.svelte';
 	import SubscribeLeave from '$lib/components/SubscribeLeave.svelte';
 	import { dateFormat } from '$lib/utils';
+	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	export let data;
 </script>
 
@@ -44,7 +45,11 @@
 						</div>
 					{/if}
 					{#if data.subreddit.creatorId !== data.session?.user?.id}
-						<SubscribeLeave isSubscribed={data.isSubscribed} subredditId={data.subreddit.id} />
+						<SubscribeLeave
+							isSubscribed={data.isSubscribed}
+							subredditId={data.subreddit.id}
+							subreddit={data.subreddit.name}
+						/>
 					{/if}
 				</dl>
 			</div>

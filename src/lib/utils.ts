@@ -4,7 +4,7 @@ const errors: { [key: string]: string } = {
 	OAuthCallbackError: 'Try signing with a different account.',
 	OAuthCreateAccountError: 'Try signing with a different account.',
 	EmailCreateAccountError: 'Try signing with a different account.',
-	CallbackError: 'Try signing with a different account.',
+	CallbackRouteError: 'Try signing with a different account.',
 	OAuthAccountNotLinkedError:
 		'To confirm your identity, sign in with the same account you used originally.',
 	EmailSigninError: 'Check your email address.',
