@@ -20,7 +20,7 @@
 				toast.error(res.toString() ?? 'Try again Later...');
 			}
 			if (response.ok) {
-				toast.success(`sucessfully created ${name}`);
+				toast.success(`sucessfully joined ${name}`);
 			}
 			return await response.json();
 		} catch (e) {
