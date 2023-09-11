@@ -1,9 +1,9 @@
 import { subredditSchema } from '$lib/validators/subreddit';
 import { db } from '$lib/server/prisma';
 import { z } from 'zod';
-import { json } from '@sveltejs/kit';
+import { json, type RequestHandler } from '@sveltejs/kit';
 
-export const POST = async ({ request, locals }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
 	try {
 		const user = await locals.getSession();
 		if (!user) {
