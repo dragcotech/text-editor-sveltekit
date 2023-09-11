@@ -12,7 +12,7 @@ const errors: { [key: string]: string } = {
 	default: 'Unable to sign in.'
 };
 
-export function CheckError(e: string | null) {
+export function checkError(e: string | null) {
 	if (e) {
 		if (Object.keys(errors).includes(e) || '') {
 			return {
@@ -20,4 +20,11 @@ export function CheckError(e: string | null) {
 			};
 		}
 	}
+}
+
+export function dateFormat(date: number | Date) {
+	const formattedDate = new Intl.DateTimeFormat('en-GB', {
+		dateStyle: 'full'
+	}).format(date);
+	return formattedDate;
 }
