@@ -17,13 +17,13 @@
 					'content-type': 'application/json'
 				}
 			});
-			invalidateAll();
 			loading = false;
 			if (!response.ok) {
 				const res = await response.json();
 				toast.error(res.toString() ?? 'Try again Later...');
 			}
 			if (response.ok) {
+				invalidateAll();
 				toast.success(`sucessfully joined ${subreddit}`);
 			}
 			return await response.json();
@@ -41,13 +41,14 @@
 					'content-type': 'application/json'
 				}
 			});
-			invalidateAll();
+
 			loading = false;
 			if (!response.ok) {
 				const res = await response.json();
 				toast.error(res.toString() ?? 'Try again Later...');
 			}
 			if (response.ok) {
+				invalidateAll();
 				toast.success(`Left ${subreddit}`);
 			}
 			return await response.json();
