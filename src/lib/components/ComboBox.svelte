@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { signOut } from '@auth/sveltekit/client';
 	import { ListBox, ListBoxItem, popup, type PopupSettings } from '@skeletonlabs/skeleton';
+	import toast from 'svelte-french-toast';
 	let comboboxValue: string;
 	const popupCombobox: PopupSettings = {
 		event: 'focus-click',
@@ -34,23 +35,31 @@
 				</span>
 			</p>
 		</ListBoxItem>
-		<ListBoxItem bind:group={comboboxValue} name="medium" value="Settings">
+		<ListBoxItem bind:group={comboboxValue} name="setting" value="Settings">
 			<a href="/settings">Settings</a>
 		</ListBoxItem>
-		<ListBoxItem bind:group={comboboxValue} name="medium" value="television">
+		<ListBoxItem bind:group={comboboxValue} name="Feed" value="Feed">
 			<a href="/">Feed</a>
 		</ListBoxItem>
-		<ListBoxItem bind:group={comboboxValue} name="medium" value="television">
+		<ListBoxItem bind:group={comboboxValue} name="Create" value="Create Community">
 			<a href="/r/create">Create Community</a>
 		</ListBoxItem>
 		<hr />
 		<ListBoxItem
 			bind:group={comboboxValue}
-			name="medium"
-			value="television"
+			name="signOut"
+			value="Sign Out"
 			class=" hover:bg-red-300"
 		>
-			<button on:click={() => signOut({ callbackUrl: '/' })}>Log Out</button>
+			<button
+				on:click={() => {
+					toast.promise(signOut({ callbackUrl: '/' }), {
+						loading: 'Logging Out....',
+						success: 'Logged Out',
+						error: 'Could Not Log Out'
+					});
+				}}>Log Out</button
+			>
 		</ListBoxItem>
 	</ListBox>
 </div>
