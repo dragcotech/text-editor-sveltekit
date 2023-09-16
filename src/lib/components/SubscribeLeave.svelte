@@ -17,15 +17,16 @@
 					'content-type': 'application/json'
 				}
 			});
-			invalidateAll();
-			loading = false;
+
 			if (!response.ok) {
 				const res = await response.json();
 				toast.error(res.toString() ?? 'Try again Later...');
 			}
 			if (response.ok) {
-				toast.success(`sucessfully joined ${subreddit}`);
+				await invalidateAll();
+				toast.success(`sucessfully joined r/${subreddit}`);
 			}
+			loading = false;
 			return await response.json();
 		} catch (e) {
 			console.log('try again');
@@ -41,15 +42,16 @@
 					'content-type': 'application/json'
 				}
 			});
-			invalidateAll();
-			loading = false;
+
 			if (!response.ok) {
 				const res = await response.json();
 				toast.error(res.toString() ?? 'Try again Later...');
 			}
 			if (response.ok) {
-				toast.success(`Left ${subreddit}`);
+				await invalidateAll();
+				toast.success(`Left r/${subreddit}`);
 			}
+			loading = false;
 			return await response.json();
 		} catch (e) {
 			console.log('try again');
@@ -61,6 +63,7 @@
 	<button
 		class="btn mb-4 mt-1 flex w-full gap-3 bg-black font-semibold text-white"
 		on:click={() => leaveSubreddit()}
+		disabled={loading}
 	>
 		{#if loading}
 			<ProgressRadial class="h-6 w-6 stroke-white" track="bg-white" />
@@ -71,6 +74,7 @@
 	<button
 		class="btn mb-4 mt-1 flex w-full gap-3 bg-black font-semibold text-white"
 		on:click={() => joinSubreddit()}
+		disabled={loading}
 	>
 		{#if loading}
 			<ProgressRadial class="h-6 w-6 stroke-white" track="bg-white" />

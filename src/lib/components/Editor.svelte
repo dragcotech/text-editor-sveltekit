@@ -66,7 +66,7 @@
 		</div>
 		<div bind:this={editor} class="min-h-[300px] overflow-clip" />
 		<button
-			class="btn w-full bg-black font-semibold text-gray-200"
+			class="btn flex w-full bg-black font-semibold text-gray-200"
 			type="submit"
 			id="subreddit-post-form">Post</button
 		>
