@@ -13,6 +13,6 @@
 	</div>
 	<!-- form -->
 	<div class="flex w-full justify-end">
-		<Editor subredditName={data.subredditName} />
+		<Editor subredditId={data.subreddit.id} subredditName={data.subredditName} />
 	</div>
 </div>

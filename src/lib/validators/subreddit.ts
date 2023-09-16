@@ -10,7 +10,7 @@ export const subredditSchema = z.object({
 // create subreddit post validation
 export const PostValidator = z.object({
 	title: z
-		.string()
+		.string({ required_error: 'Title is Required' })
 		.min(3, { message: 'Title should be longer than 3 character' })
 		.max(128, { message: 'Title must be less than 128 characters' }),
 	subredditId: z.string(),

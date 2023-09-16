@@ -1,4 +1,4 @@
-import { error, type Actions } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from '../$types';
 
 export const load: PageServerLoad = async ({ parent, locals }) => {
@@ -12,11 +12,4 @@ export const load: PageServerLoad = async ({ parent, locals }) => {
 		subredditName,
 		subreddit
 	};
-};
-
-export const actions: Actions = {
-	createPost: async ({ request }) => {
-		const formdata = Object.fromEntries(await request.formData());
-		console.log(formdata);
-	}
 };
