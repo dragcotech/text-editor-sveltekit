@@ -2,13 +2,18 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { ImagePlus, Link2 } from 'lucide-svelte';
+	import toast from 'svelte-french-toast';
 	function createRedirect() {
-		goto(`${$page.url.pathname}/submit`);
+		toast.promise(goto(`${$page.url.pathname}/submit`), {
+			loading: 'Creating Page...',
+			error: 'Try again',
+			success: 'Page created'
+		});
 	}
 </script>
 
-<li class="overflow-hidden rounded-md bg-white shadow">
-	<div class="flex h-full justify-between gap-6 px-6 py-4">
+<li class="list-none overflow-hidden rounded-md bg-white shadow">
+	<div class="flex justify-between gap-6 px-6 py-4">
 		<div class="relative">
 			<img class="h-8 w-8" src={$page.data.session?.user?.image} alt="" />
 			<span

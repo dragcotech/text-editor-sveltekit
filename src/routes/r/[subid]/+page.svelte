@@ -1,10 +1,36 @@
 <script lang="ts">
-	// @ts-nocheck
+	import { goto } from '$app/navigation';
 	import MiniCreatePost from '$lib/components/MiniCreatePost.svelte';
+	import Posts from '$lib/components/Posts.svelte';
 	import SubscribeLeave from '$lib/components/SubscribeLeave.svelte';
-	import { dateFormat } from '$lib/utils';
+	import { dateFormat, type ExtendedPost } from '$lib/utils';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	import { onMount } from 'svelte';
+	let posts: ExtendedPost[] = [];
 	export let data;
+	let loader: HTMLDivElement;
+	onMount(() => {
+		const io = new IntersectionObserver(([entry]) => {
+			if (!entry.isIntersecting) {
+				return;
+			}
+			goto(`?page=${+data.data + 1}&skip=${+data.data * 2}`, {
+				noScroll: true,
+				replaceState: true,
+				invalidateAll: true
+			});
+		});
+		io.observe(loader);
+		if (data.end) {
+			io.unobserve(loader);
+			loader.remove();
+		}
+	});
+	$: {
+		// @ts-ignore
+		posts.push(...data.posts);
+		posts = posts;
+	}
 </script>
 
 <div class="mx-auto h-full max-w-7xl pt-12">
@@ -12,14 +38,16 @@
 		<!-- TODO: Button to take us back -->
 		<div class="grid grid-cols-1 gap-y-4 py-6 md:grid-cols-3 md:gap-x-4">
 			<div class="col-span-2 flex flex-col space-y-6">
-				<div>
-					<h1 class="h-14 text-3xl font-bold md:text-4xl">r/{data.subreddit.name}</h1>
-					<MiniCreatePost />
-					<!-- Todo Show Posts -->
-				</div>
+				<h1 class="h-14 text-3xl font-bold md:text-4xl">r/{data.subreddit.name}</h1>
+				<MiniCreatePost />
+				<!-- Todo Show Posts -->
+				<Posts {posts} />
+				<p bind:this={loader} class="self-center">
+					<ProgressRadial class="h-8 w-8" />
+				</p>
 			</div>
 			<div
-				class="order-first hidden h-fit overflow-hidden rounded-lg border-gray-200 md:order-last md:block"
+				class="sticky top-3 order-first hidden h-fit overflow-hidden rounded-lg border-gray-200 md:order-last md:block"
 			>
 				<div class="px-6 py-4">
 					<p class="py-3 font-semibold">About r/{data.subreddit.name}</p>

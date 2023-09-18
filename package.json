@@ -53,7 +53,6 @@
 		"@editorjs/inline-code": "^1.4.0",
 		"@editorjs/link": "^2.5.0",
 		"@editorjs/list": "^1.8.0",
-		"@editorjs/table": "^2.2.2",
 		"@floating-ui/dom": "^1.5.3",
 		"@prisma/client": "^5.3.1",
 		"@types/editorjs__header": "^2.6.0",

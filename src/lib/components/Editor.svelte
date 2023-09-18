@@ -15,8 +15,6 @@
 		// @ts-ignore
 		const Embed = (await import('@editorjs/embed')).default;
 		// @ts-ignore
-		const Table = (await import('@editorjs/table')).default;
-		// @ts-ignore
 		const List = (await import('@editorjs/list')).default;
 		// @ts-ignore
 		const Code = (await import('@editorjs/code')).default;
@@ -46,7 +44,6 @@
 				list: List,
 				code: Code,
 				inlineCode: InlineCode,
-				table: Table,
 				embed: Embed
 			}
 		});
@@ -68,12 +65,16 @@
 			}
 		});
 		if (response.ok) {
-			toast.success('Post Created');
-			toast.promise(goto(`/r/${subredditName}`), {
-				success: 'Redirected',
-				error: 'Cannot Redirect',
-				loading: 'Redirecting'
-			});
+			toast.promise(
+				goto(`/r/${subredditName}`, {
+					noScroll: true
+				}),
+				{
+					success: 'Post Created',
+					error: 'Cannot Redirect',
+					loading: 'Creating'
+				}
+			);
 		}
 		if (!response.ok) {
 			const res = await response.json();

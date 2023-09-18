@@ -38,9 +38,6 @@ dependencies:
   '@editorjs/list':
     specifier: ^1.8.0
     version: 1.8.0
-  '@editorjs/table':
-    specifier: ^2.2.2
-    version: 2.2.2
   '@floating-ui/dom':
     specifier: ^1.5.3
     version: 1.5.3
@@ -277,12 +274,6 @@ packages:
     resolution: {integrity: sha512-Vq6cjyTXBzgegYv/MtTfuDdiz59yGhDEc/yAVXr6lmvoWAFs9cJ4TLuh4/9SbrbhIptcQLDvUjMDKmRrV6v2NQ==}
     dependencies:
       '@codexteam/icons': 0.0.4
-    dev: false
-
-  /@editorjs/table@2.2.2:
-    resolution: {integrity: sha512-MfCGaEl3c+k+//WriVbtLTLfVzuD2gcyovf3/wIevkQ35vAJEVnimj+bTPWJqBtiHsKUVd4yXvk5QH5xRWOybg==}
-    dependencies:
-      '@codexteam/icons': 0.0.6
     dev: false
 
   /@esbuild/android-arm64@0.18.20:
