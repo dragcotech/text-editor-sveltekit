@@ -6,6 +6,7 @@
 	import { dateFormat, type ExtendedPost } from '$lib/utils';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	import { INFINITE_SCROLL_PAGINATION_RESULTS } from '../../../config.js';
 	let posts: ExtendedPost[] = [];
 	export let data;
 	let loader: HTMLDivElement;
@@ -14,18 +15,20 @@
 			if (!entry.isIntersecting) {
 				return;
 			}
-			goto(`?page=${+data.data + 1}&skip=${+data.data * 2}`, {
-				noScroll: true,
-				replaceState: true,
-				invalidateAll: true
-			});
+			if (posts.length === data.totalPost) {
+				io.unobserve(loader);
+				loader.remove();
+			} else {
+				goto(`?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${+data.page + 1}`, {
+					noScroll: true,
+					replaceState: true,
+					invalidateAll: true
+				});
+			}
 		});
 		io.observe(loader);
-		if (data.end) {
-			io.unobserve(loader);
-			loader.remove();
-		}
 	});
+
 	$: {
 		// @ts-ignore
 		posts.push(...data.posts);

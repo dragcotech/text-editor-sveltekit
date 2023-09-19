@@ -1,6 +1,38 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Posts from '$lib/components/Posts.svelte';
+	import type { ExtendedPost } from '$lib/utils.js';
 	import { Home } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import { INFINITE_SCROLL_PAGINATION_RESULTS } from '../config.js';
+	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	export let data;
+	let posts: ExtendedPost[] = [];
+	let loader: HTMLDivElement;
+	onMount(() => {
+		const io = new IntersectionObserver(([entry]) => {
+			if (!entry.isIntersecting) {
+				return;
+			}
+			if (posts.length === data.totalPost) {
+				io.unobserve(loader);
+				loader.remove();
+			} else {
+				goto(`?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${+data.page + 1}`, {
+					noScroll: true,
+					replaceState: true,
+					invalidateAll: true
+				});
+			}
+		});
+		io.observe(loader);
+	});
+
+	$: {
+		// @ts-ignore
+		posts.push(...data.posts);
+		posts = posts;
+	}
 </script>
 
 <h1 class="text-3xl font-bold md:text-4xl">Your Feed</h1>
@@ -25,4 +57,7 @@
 	</div>
 </div>
 
-<Posts />
+<Posts {posts} />
+<p bind:this={loader} class="self-center">
+	<ProgressRadial class="h-8 w-8" />
+</p>
