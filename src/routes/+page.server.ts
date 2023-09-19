@@ -19,6 +19,11 @@ export const load: PageServerLoad = async ({ url, locals }) => {
 		});
 
 		followedCommunitiesIds = followedCommunities.map((sub) => sub.subreddit.id);
+	} else {
+		const randomCommunities = await db.post.findMany({
+			include: { subreddit: true }
+		});
+		followedCommunitiesIds = randomCommunities.map((sub) => sub.subreddit.id);
 	}
 	const whereClause = {
 		subreddit: {
