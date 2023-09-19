@@ -2,21 +2,18 @@
 	// @ts-nocheck
 	import type { ExtendedPost } from '$lib/utils';
 	import { ChevronDown, ChevronUp } from 'lucide-svelte';
-	import Link from './editorjsFormat/Link.svelte';
-	import Paragraph from './editorjsFormat/Paragraph.svelte';
 	import About from './posts/About.svelte';
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
+	import MainRenderer from './editorjsFormat/MainRenderer.svelte';
 	export let posts: ExtendedPost[];
 </script>
 
 <div class="flex flex-col gap-3">
 	{#each posts as post}
 		{@const currentVote = post.votes.find((vote) => vote.userId === $page.data?.session?.user?.id)}
-		<a
+		<div
 			class="flex max-h-[200px] gap-2 overflow-hidden truncate rounded-md border
 			 border-gray-400 hover:cursor-pointer hover:border-gray-900"
-			href={`r/${post.subreddit.name}/${post.id}`}
 		>
 			<div class="flex flex-col items-center justify-start border-r bg-gray-100 px-2 py-5">
 				{#if currentVote && currentVote?.type === 'UP'}
@@ -47,34 +44,15 @@
 					time={post.content.time}
 				/>
 
-				<div>
+				<a href={`r/${post.subreddit.name}/${post.id}`}>
 					<h1 class="mt-1 text-xl font-bold capitalize">{post.title}</h1>
 					<div class="px-3 pr-[4.25rem] text-sm">
 						{#each post?.content?.blocks as block}
-							{#if block.type === 'paragraph'}
-								<Paragraph text={block?.data?.text} />
-							{/if}
-
-							{#if block.type === 'linkTool'}
-								<Link
-									link={block.data.link}
-									title={block.data?.meta?.title}
-									description={block.data?.meta?.description}
-									url={block.data.meta?.image?.url}
-								/>
-							{/if}
-							{#if block.type === 'list' && block.data.items}
-								{#each block?.data?.items as item}
-									<li>{item}</li>
-								{/each}
-							{/if}
-							{#if block.type === 'code'}
-								<pre class="pre">{block.data.code}</pre>
-							{/if}
+							<MainRenderer {block} />
 						{/each}
 					</div>
-				</div>
+				</a>
 			</div>
-		</a>
+		</div>
 	{/each}
 </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import toast from 'svelte-french-toast';
 	let loading = false;
@@ -20,7 +20,11 @@
 				toast.error(res.toString() ?? 'Try again Later...');
 			}
 			if (response.ok) {
-				toast.success(`sucessfully joined ${name}`);
+				toast.promise(goto(`r/${name}`, { invalidateAll: true }), {
+					loading: 'Subreddit Creating...',
+					success: 'Subreddit Created',
+					error: 'Cannot create Subreddit '
+				});
 			}
 			return await response.json();
 		} catch (e) {
@@ -29,7 +33,6 @@
 	}
 </script>
 
-{JSON.stringify($page.data.session?.user)}
 <div class="mx-auto flex h-full max-w-3xl">
 	<div class="relative h-fit w-full space-y-6 rounded-lg bg-white p-4">
 		<div class="flex items-center justify-between">

@@ -50,7 +50,7 @@ interface BlockData {
 	};
 }
 
-interface Block {
+export interface Block {
 	id: string;
 	type: 'paragraph' | 'linkTool' | 'header' | 'code' | 'list' | 'image';
 	data: BlockData;
