@@ -6,15 +6,17 @@
 	import Paragraph from './editorjsFormat/Paragraph.svelte';
 	import About from './posts/About.svelte';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	export let posts: ExtendedPost[];
 </script>
 
 <div class="flex flex-col gap-3">
 	{#each posts as post}
 		{@const currentVote = post.votes.find((vote) => vote.userId === $page.data?.session?.user?.id)}
-		<div
+		<a
 			class="flex max-h-[200px] gap-2 overflow-hidden truncate rounded-md border
 			 border-gray-400 hover:cursor-pointer hover:border-gray-900"
+			href={`r/${post.subreddit.name}/${post.id}`}
 		>
 			<div class="flex flex-col items-center justify-start border-r bg-gray-100 px-2 py-5">
 				{#if currentVote && currentVote?.type === 'UP'}
@@ -73,6 +75,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</a>
 	{/each}
 </div>

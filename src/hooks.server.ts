@@ -1,7 +1,7 @@
 import { SvelteKitAuth } from '@auth/sveltekit';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import GitHub from '@auth/core/providers/github';
-import Google from '@auth/core/providers/github';
+import Google from '@auth/core/providers/google';
 import {
 	GITHUB_CLIENT,
 	GITHUB_SECRET,

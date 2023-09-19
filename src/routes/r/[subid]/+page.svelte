@@ -7,6 +7,7 @@
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { INFINITE_SCROLL_PAGINATION_RESULTS } from '../../../config.js';
+	import toast from 'svelte-french-toast';
 	let posts: ExtendedPost[] = [];
 	export let data;
 	let loader: HTMLDivElement;
@@ -17,13 +18,21 @@
 			}
 			if (posts.length === data.totalPost) {
 				io.unobserve(loader);
+				toast.error('No more posts to fetch');
 				loader.remove();
 			} else {
-				goto(`?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${+data.page + 1}`, {
-					noScroll: true,
-					replaceState: true,
-					invalidateAll: true
-				});
+				toast.promise(
+					goto(`?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${+data.page + 1}`, {
+						noScroll: true,
+						replaceState: true,
+						invalidateAll: true
+					}),
+					{
+						loading: 'Loading Posts',
+						success: 'Post Loaded',
+						error: 'Error Fetching Post'
+					}
+				);
 			}
 		});
 		io.observe(loader);
