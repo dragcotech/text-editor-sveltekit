@@ -5,7 +5,30 @@
 	import About from './posts/About.svelte';
 	import { page } from '$app/stores';
 	import MainRenderer from './editorjsFormat/MainRenderer.svelte';
+	import { invalidate, invalidateAll } from '$app/navigation';
+	import toast from 'svelte-french-toast';
 	export let posts: ExtendedPost[];
+
+	async function voteing(type: string, postId: string) {
+		const votePost = await fetch('api/subreddit/post/vote', {
+			body: JSON.stringify({ type, postId }),
+			method: 'PATCH',
+			headers: {
+				headers: {
+					'content-type': 'application/json'
+				}
+			}
+		});
+		if (votePost.ok) {
+			await invalidateAll();
+		}
+		// toast.promise(votePost, {
+		// 	loading: `${type}ing`,
+		// 	error: `error ${type}ing`,
+		// 	success: `${type}ted`
+		// });
+		// invalidateAll();
+	}
 </script>
 
 <div class="flex flex-col gap-3">
@@ -17,9 +40,13 @@
 		>
 			<div class="flex flex-col items-center justify-start border-r bg-gray-100 px-2 py-5">
 				{#if currentVote && currentVote?.type === 'UP'}
-					<ChevronUp class="stroke-red-600 hover:border" />
+					<button on:click={() => voteing(currentVote.type, post.id)}>
+						<ChevronUp class="stroke-red-600 hover:border" />
+					</button>
 				{:else}
-					<ChevronUp class="hover:border hover:stroke-red-600 " />
+					<button on:click={() => voteing('UP', post.id)}>
+						<ChevronUp class="hover:border hover:stroke-red-600 " />
+					</button>
 				{/if}
 				{post.votes.reduce((acc, vote) => {
 					if (vote.type === 'UP') {
@@ -32,9 +59,13 @@
 				}, 0)}
 
 				{#if currentVote && currentVote?.type === 'DOWN'}
-					<ChevronDown class="stroke-red-600 hover:border" />
+					<button on:click={() => voteing('DOWN', post.id)}>
+						<ChevronDown class="stroke-red-600 hover:border" />
+					</button>
 				{:else}
-					<ChevronDown class="hover:border hover:stroke-red-600" />
+					<button on:click={() => voteing('DOWN', post.id)}>
+						<ChevronDown class="hover:border hover:stroke-red-600" />
+					</button>
 				{/if}
 			</div>
 			<div class="w-full py-1 pb-2">

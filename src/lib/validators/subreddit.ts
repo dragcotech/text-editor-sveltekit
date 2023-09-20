@@ -16,6 +16,10 @@ export const PostValidator = z.object({
 	subredditId: z.string(),
 	content: z.any()
 });
+export const postVoteValdidator = z.object({
+	type: z.enum(['UP', 'DOWN']),
+	postId: z.string()
+});
 export const subscriptionValidator = z.object({
 	subredditId: z.string()
 });

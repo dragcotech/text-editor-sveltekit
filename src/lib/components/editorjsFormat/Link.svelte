@@ -13,7 +13,7 @@
 	</div>
 	<div class="flex flex-col">
 		<a class="flex text-lg font-semibold hover:text-violet-500" href={link}
-			>{@html title?.split('·')[0]}
+			>{@html title?.split('·')[0] ?? 'No Title here'}
 			<ExternalLink class="w-4" />
 		</a>
 		<p class=" pl-2 text-xs font-light">{@html description}</p>

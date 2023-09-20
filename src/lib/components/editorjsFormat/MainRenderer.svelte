@@ -12,7 +12,7 @@
 {#if block.type === 'linkTool'}
 	<Link
 		link={block.data.link}
-		title={block.data?.meta?.title}
+		title={block.data?.meta?.title ?? block.data.link}
 		description={block.data?.meta?.description}
 		url={block.data.meta?.image?.url}
 	/>
